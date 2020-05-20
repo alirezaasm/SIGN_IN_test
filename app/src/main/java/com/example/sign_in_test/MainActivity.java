@@ -17,7 +17,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
-    String url="https://tabeshma.000webhostapp.com/mysites/showparams.php";
+    String url="http://192.168.42.60:8000/signup/";
    TextView tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +29,19 @@ public class MainActivity extends AppCompatActivity {
         OkHttpClient client=new OkHttpClient();
 
         RequestBody formBody = new FormBody.Builder()
-                .add("username", "111")
-                .add("password","555")
+                .add("first_name","admin")
+                .add("last_name","admin")
+                .add("username","admin43564")
+                .add("phone_number","4343443433")
+                .add("grades[0]","1")
+                .add("gender","True")
+
                 .build();
 
         Request request = new Request.Builder()
                 .url(url)
                 .post(formBody)
+                .addHeader("Accept","application/json")
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
