@@ -19,9 +19,9 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
-    String url="https://tabeshma.000webhostapp.com/mysites/showparams.php";
-   TextView tv;
-   EditText pass, user;
+    String url="http://192.168.42.60:8000/api/token/";
+    TextView tv;
+    EditText pass, user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
                 Request request = new Request.Builder()
                         .url(url)
                         .post(formBody)
+                        //you need to set it in all of requests
+                        .addHeader("Accept","application/json")
                         .build();
                 client.newCall(request).enqueue(new Callback() {
                     @Override
@@ -53,14 +55,36 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call call, Response response) throws IOException
                     {
-                        if(response.isSuccessful())
-                        {
-                            final String myresponse=response.body().string();
+                        if(response.isSuccessful()) {
+                            //this is my sample of succesful toaken
+                         /*{
+    "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTU5MDg1MjA3NSwianRpIjoiZDFkNDc1OTFlN2MxNDcxMmIxNjBhYmQ5NDMyMDcyNGEiLCJ1c2VyX2lkIjoxfQ.nEbC8l5BO5iJsKf98IKu2U1sEfw7rG-eGDn_OgqVDDI",
+    "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTkwNzY1OTc1LCJqdGkiOiIxYTkyY2RhOTQ4ODQ0M2E3OWE1NjU5YTY5NmQzYjIyYiIsInVzZXJfaWQiOjF9.Qm31_E1z_PkWQXdhZQ6__AnohzQZAj84zJdiAdLcctg"
+}*/
+                            //you must set access to header of request
+                            // .addHeader("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTkwNzY1OTc1LCJqdGkiOiIxYTkyY2RhOTQ4ODQ0M2E3OWE1NjU5YTY5NmQzYjIyYiIsInVzZXJfaWQiOjF9.Qm31_E1z_PkWQXdhZQ6__AnohzQZAj84zJdiAdLcctg")
+                            final String myresponse = response.body().string();
                             MainActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     try {
                                         tv.setText(myresponse);
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+
+                                }
+                            });
+                        }
+                        else if(response.code()==401)
+                        {
+                            MainActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        tv.setText("احراز هویت ناموفق");
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
