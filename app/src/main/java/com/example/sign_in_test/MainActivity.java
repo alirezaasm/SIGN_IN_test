@@ -19,7 +19,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
-    String url="http://tabbesh.ir:83/api/token/";
+    String url="http://192.168.1.7:8000/api/token/";
     TextView tv;
     EditText pass, user;
     @Override
@@ -52,9 +52,11 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("failed in sign_in",e.getMessage());
                     }
 
+
                     @Override
                     public void onResponse(Call call, Response response) throws IOException
                     {
+
                         if(response.isSuccessful()) {
                             //this is my sample of succesful toaken
                          /*{
