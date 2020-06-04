@@ -59,16 +59,18 @@ public class MainActivity extends AppCompatActivity {
                                         try {
                                             tv.setText(response.body().string());
                                         } catch (IOException e) {
-                                            e.printStackTrace();
+                                            Log.i("bardia1",e.getMessage());
                                         }
                                     }
                                 });
                           }
+
+
                           }
                     });
 
                 } catch (IOException e) {
-                    e.printStackTrace();
+                   Log.i("bardia2",e.getMessage());
                 }
             }
         });
