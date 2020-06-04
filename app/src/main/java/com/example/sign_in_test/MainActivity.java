@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     String url="http://192.168.1.7:8000/api/token/";
     TextView tv;
     EditText pass, user;
+    ProgressBar pb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
         tv=findViewById(R.id.tv);
         user=findViewById(R.id.user);
         pass=findViewById(R.id.pass);
-        findViewById(R.id.sign_in).setOnClickListener(new View.OnClickListener() {
+        pb=findViewById(R.id.progressBar2);
+        pb.setVisibility(View.VISIBLE);
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OkHttpClient client=new OkHttpClient();
@@ -46,10 +50,12 @@ public class MainActivity extends AppCompatActivity {
                         //you need to set it in all of requests
                         .addHeader("Accept","application/json")
                         .build();
+
                 client.newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         Log.i("failed in sign_in",e.getMessage());
+                        pb.setVisibility(View.INVISIBLE);
                     }
 
 
@@ -71,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
                                 public void run() {
                                     try {
                                         tv.setText(myresponse);
+                                        pb.setVisibility(View.INVISIBLE);
+
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
@@ -87,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
                                 public void run() {
                                     try {
                                         tv.setText("احراز هویت ناموفق");
+                                        pb.setVisibility(View.INVISIBLE);
+
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
